@@ -12,6 +12,9 @@ def printCalculator(expr):
 #  - Division: '/' character
 #  - Addition: '+' character
 #  - Subtraction: '-' character
+# Works by recursively calling calculator() on sub expressions
+# until we are left with a string of + and - arithmetic, which can
+# be evaluated iteratively. 
 def calculator(expr):
 	# Remove spaces for regex convenience
 	expr = re.sub(r'\s', '', expr)
