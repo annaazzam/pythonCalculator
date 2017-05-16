@@ -55,6 +55,17 @@ def calculator(expr):
 
 	# Evaluate addition / subtraction:
 	# SPLIT INTO TOKENS where a token is a number, or an operator (alternating)
+	tokens = []
+	characters = expr.split('')
+	current = "num"
+	currVal = ""
+	for c in characters:
+		if (c ): #is an operator
+			tokens.append(int(currVal))
+			tokens.append(c)
+			currVal = ""
+		else:
+			currVal = currVal + c
 
 	result = 0
 	i = 0
