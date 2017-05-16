@@ -56,24 +56,33 @@ def calculator(expr):
 	# Evaluate addition / subtraction:
 	# SPLIT INTO TOKENS where a token is a number, or an operator (alternating)
 	tokens = []
-	characters = expr.split('')
+	characters = list(expr)
 	current = "num"
 	currVal = ""
 	for c in characters:
-		if (c ): #is an operator
+		if (c == '+'): #is an operator
 			tokens.append(int(currVal))
 			tokens.append(c)
 			currVal = ""
 		else:
 			currVal = currVal + c
+	tokens.append(int(currVal))
 
-	result = 0
-	i = 0
+	result = tokens[0]
+	i = 2
 	while (i < len(tokens)):
-		if (tokens[i+1] == '+'):
-			result -= tokens[i]
-		elif (tokens[i+1] == '-'):
+		tokens.append(currVal)
+		if (tokens[i-1] == '+'):
 			result += tokens[i]
-		i+=2
+		elif (tokens[i-1] == '-'):
+			result -= tokens[i]
+		i += 2
 
 	return result
+
+
+# SOME OF ANNAS TESTS #
+printCalculator("5+3")
+
+
+# PUT CODE HERE TO READ IN INPUT #
