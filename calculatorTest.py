@@ -46,5 +46,6 @@ assert(calculator("(66 + 10)(4 + 15)") == 1444)
 # Testing exponents
 assert(calculator("2^4") == 16)
 assert(calculator("12^5") == 248832)
+assert(1==2)
 
 print("ALL TESTS PASSED. YOU ARE AWESOME :)")
