@@ -35,19 +35,6 @@ def calculator(expr):
 		evaluatedBrackets = calculator(withoutBrackets)
 		expr = expr.replace(m.group(0), str(evaluatedBrackets))
 		m = re.search('(\([^()]*\))', expr)
-	
-	# # Evaluate exponents:
-	# # Regex search for (not-operator)^(not-operator)
-	# m = re.search('([^\^\*\-\+\/]+)(\^)([^\^\*\-\+\/]+)', expr)
-	# while (m.group()):
-	# 	match = m.group(0) + '^' + m.group(1)
-	# 	lhs = m.group(0)
-	# 	rhs = m.group(1)
-	# 	powerResult = power(lhs, rhs)
-	# 	expr = expr.replace(match, powerResult)
-	# 	m = re.search('([^\^\*\-\+\/]+)(\^)([^\^\*\-\+\/]+)', expr)
-
-	# Evaluate addition / subtraction:
 
 	# Split into tokens where a token is a number, or an operator (alternating)
 	tokens = []
@@ -82,30 +69,22 @@ def calculator(expr):
 				tokens.pop(i+1)
 		i += 1
 
-
-	# Evaluate multiplication:
+	# Evaluate multiplication, division, exponents:
 	i = -1
 	while (i < len(tokens) - 2):
 		i += 1
 		if (not isOperator(tokens[i])
-			and tokens[i+1] == '*'
 			and not isOperator(tokens[i+2])):
-			multiplicationResult = tokens[i] * tokens[i+2]
-			tokens[i] = multiplicationResult
-			tokens.pop(i+2)
-			tokens.pop(i+1)
-			i = -1
-		
-
-	# Evaluate division:
-	i = -1
-	while (i < len(tokens) - 2):
-		i += 1
-		if (not isOperator(tokens[i])
-			and tokens[i+1] == '/'
-			and not isOperator(tokens[i+2])):
-			multiplicationResult = tokens[i] / tokens[i+2]
-			tokens[i] = multiplicationResult
+			result = 0
+			if (tokens[i+1] == '*'):
+				result = tokens[i] * tokens[i+2]
+			elif (tokens[i+1] == '/'):
+				result = tokens[i] / tokens[i+2]
+			elif (tokens[i+1] == '^'):
+				result = power(tokens[i], tokens[i+2])
+			else:
+				continue
+			tokens[i] = result
 			tokens.pop(i+2)
 			tokens.pop(i+1)
 			i = -1
@@ -129,50 +108,12 @@ def isOperator(token):
 		return 1
 	return 0
 
-
-#####################################
-####### SOME OF ANNAS TESTS #########
-#####################################
-
-# Simple addition
-assert(calculator("5+3") == 8)
-assert(calculator("5+3+2+6+8+12") == 36)
-
-# Decimals
-calcVal = calculator("52.1+3251+112+6+8.7+1")
-assert(abs(3430.8 - calcVal) <= 0.0000000001) # because of f.p. error
-
-# Simple addition and subtraction
-assert(calculator("5-3-2+6-8-12") == -14)
-
-# First number negative
-assert(calculator("-5-3-2+6-8-12") == -24)
-
-# Testing adding spaces
-assert(calculator("-5 - 3 - 2 + 6 - 8 - 12") == -24)
-
-
-# Testing basic brackets
-assert(calculator("(5+3)") == 8)
-
-# .. and more complicated brackets
-assert(calculator("-5-(3-2)+(6-8)-12") == -20)
-assert(calculator("-5-((3-2)+(6-8))-12") == -16)
-
-# Testing multiplication
-assert(calculator("5 * 1") == 5)
-assert(calculator("5 * 2") == 10)
-assert(calculator("5 * 3") == 15)
-assert(calculator("1 * 12 * 5 * 3") == 180)
-
-# Testing implicit multiplication sign insertion
-assert(calculator("2(5 + 3)") == 16)
-calcVal = calculator("6(22.1 + 56.35)")
-assert(abs(470.7 - calcVal) <= 0.0000000001) # because of f.p. error
-assert(calculator("(66 + 10)(4 + 15)") == 1444)
-
-
-print("ALL TESTS PASSED. YOU ARE AWESOME :)")
-
+def power(base, exponent):
+	i = 1
+	curr = base
+	while (i < exponent):
+		curr = curr * base
+		i += 1
+	return curr
 
 # PUT CODE HERE TO READ IN INPUT #
