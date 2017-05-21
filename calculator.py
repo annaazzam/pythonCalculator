@@ -169,6 +169,8 @@ assert(calculator("1 * 12 * 5 * 3") == 180)
 assert(calculator("2(5 + 3)") == 16)
 calcVal = calculator("6(22.1 + 56.35)")
 assert(abs(470.7 - calcVal) <= 0.0000000001) # because of f.p. error
+assert(calculator("(66 + 10)(4 + 15)") == 1444)
+
 
 print("ALL TESTS PASSED. YOU ARE AWESOME :)")
 
