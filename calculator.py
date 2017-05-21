@@ -21,12 +21,12 @@ def calculator(expr):
 
 	# Add implicit multiplication signs
 	#  e.g. 5(1+2) ----> 5*(1+2)
-	m = re.search('([^\^\*\-\+\/])(\()', expr)
+	m = re.search('([0-9\)])(\()', expr)
 	while (m and m.group()):
-		match = m.group(0) + m.group(1)
-		matchWithMult = m.group(0) + '*' + m.group(1)
+		match = m.group(0)[0] + m.group(0)[1]
+		matchWithMult = m.group(0)[0] + '*' + m.group(0)[1]
 		expr = expr.replace(match, matchWithMult)
-		m = re.search('([^\^\*\-\+\/\(\)])(\()', expr)
+		m = re.search('([0-9]\))(\()', expr)
 
 	# Evaluate Brackets:
 	m = re.search('(\([^()]*\))', expr)
@@ -163,10 +163,12 @@ assert(calculator("-5-((3-2)+(6-8))-12") == -16)
 assert(calculator("5 * 1") == 5)
 assert(calculator("5 * 2") == 10)
 assert(calculator("5 * 3") == 15)
-printCalculator("1 * 12 * 5 * 3")
 assert(calculator("1 * 12 * 5 * 3") == 180)
 
-
+# Testing implicit multiplication sign insertion
+assert(calculator("2(5 + 3)") == 16)
+calcVal = calculator("6(22.1 + 56.35)")
+assert(abs(470.7 - calcVal) <= 0.0000000001) # because of f.p. error
 
 print("ALL TESTS PASSED. YOU ARE AWESOME :)")
 
