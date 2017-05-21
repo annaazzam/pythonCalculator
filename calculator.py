@@ -75,25 +75,10 @@ def calculator(expr):
 				tokens.pop(i+1)
 		i += 1
 
-	# Evaluate multiplication, division, and exponents:
-	i = -1
-	while (i < len(tokens) - 2):
-		i += 1
-		if (not isOperator(tokens[i])
-			and not isOperator(tokens[i+2])):
-			result = 0
-			if (tokens[i+1] == '*'):
-				result = tokens[i] * tokens[i+2]
-			elif (tokens[i+1] == '/'):
-				result = tokens[i] / tokens[i+2]
-			elif (tokens[i+1] == '^'):
-				result = power(tokens[i], tokens[i+2])
-			else:
-				continue
-			tokens[i] = result
-			tokens.pop(i+2)
-			tokens.pop(i+1)
-			i = -1
+	# Handle exponents, multiplication and division
+	tokens = applyOperation(tokens, "^")
+	tokens = applyOperation(tokens, "*")
+	tokens = applyOperation(tokens, "/")
 
 	# Calculates addition and subtraction:
 	result = tokens[0]
@@ -125,6 +110,31 @@ def power(base, exponent):
 		curr = curr * base
 		i += 1
 	return curr
+
+# Function to handle multiplication, division and exponents
+# Takes in an expression and evaluates all of the given
+# operator type.
+def applyOperation(tokens, operator):
+	i = -1
+	while (i < len(tokens) - 2):
+		i += 1
+		if (not isOperator(tokens[i])
+			and tokens[i+1] == operator
+			and not isOperator(tokens[i+2])):
+			result = tokens[i] * tokens[i+2]
+			if (tokens[i+1] == "*"):
+				result = tokens[i] * tokens[i+2]
+			elif (tokens[i+1] == '/'):
+				result = tokens[i] / tokens[i+2]
+			elif (tokens[i+1] == '^'):
+				result = power(tokens[i], tokens[i+2])
+			else:
+				continue
+			tokens[i] = result
+			tokens.pop(i+2)
+			tokens.pop(i+1)
+			i = -1
+	return tokens
 
 if __name__ == "__main__":
    main()
