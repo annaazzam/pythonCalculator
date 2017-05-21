@@ -43,10 +43,14 @@ assert(calculator("(66 + 10)(4 + 15)") == 1444)
 assert(calculator("((66 + 10)(4 + 15))") == 1444)
 
 # Testing division
+assert(calculator("6/3") == 2)
+assert(calculator("3 + 6*(5 + 4) / 3 - 7") == 14)
+assert(calculator("480/15") == 32)
 
 # Testing exponents
 assert(calculator("2^4") == 16)
 assert(calculator("12^5") == 248832)
 assert(calculator("513^0") == 1)
+
 
 print("ALL TESTS PASSED. YOU ARE AWESOME :)")
