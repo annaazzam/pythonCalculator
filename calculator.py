@@ -1,4 +1,10 @@
 import re
+import sys
+
+# Reads in input and prints the calculated result
+def main():
+	for expression in sys.stdin:
+		printCalculator(expression)
 
 def printCalculator(expr):
 	print(calculator(expr))
@@ -18,7 +24,6 @@ def printCalculator(expr):
 def calculator(expr):
 	# Remove spaces for regex convenience
 	expr = re.sub(r'\s', '', expr)
-
 	# Add implicit multiplication signs
 	#  e.g. 5(1+2) ----> 5*(1+2)
 	m = re.search('([0-9\)])(\()', expr)
@@ -29,12 +34,13 @@ def calculator(expr):
 		m = re.search('([0-9]\))(\()', expr)
 
 	# Evaluate Brackets:
-	m = re.search('(\([^()]*\))', expr)
+	m = re.search('(\([^\(\)]*\))', expr)
 	while (m and m.group()):
 		withoutBrackets = re.sub('[\(\)]', '', m.group(0))
 		evaluatedBrackets = calculator(withoutBrackets)
 		expr = expr.replace(m.group(0), str(evaluatedBrackets))
 		m = re.search('(\([^()]*\))', expr)
+
 
 	# Split into tokens where a token is a number, or an operator (alternating)
 	tokens = []
@@ -109,6 +115,8 @@ def isOperator(token):
 	return 0
 
 def power(base, exponent):
+	if (exponent == 0):
+		return 1
 	i = 1
 	curr = base
 	while (i < exponent):
@@ -116,4 +124,5 @@ def power(base, exponent):
 		i += 1
 	return curr
 
-# PUT CODE HERE TO READ IN INPUT #
+if __name__ == "__main__":
+   main()

@@ -40,12 +40,13 @@ assert(calculator("2(5 + 3)") == 16)
 calcVal = calculator("6(22.1 + 56.35)")
 assert(abs(470.7 - calcVal) <= 0.0000000001) # because of f.p. error
 assert(calculator("(66 + 10)(4 + 15)") == 1444)
+assert(calculator("((66 + 10)(4 + 15))") == 1444)
 
 # Testing division
 
 # Testing exponents
 assert(calculator("2^4") == 16)
 assert(calculator("12^5") == 248832)
-assert(1==2)
+assert(calculator("513^0") == 1)
 
 print("ALL TESTS PASSED. YOU ARE AWESOME :)")
