@@ -98,8 +98,9 @@ def calculator(expr):
 		
 
 	# Evaluate division:
-	i = 0
+	i = -1
 	while (i < len(tokens) - 2):
+		i += 1
 		if (not isOperator(tokens[i])
 			and tokens[i+1] == '/'
 			and not isOperator(tokens[i+2])):
@@ -107,8 +108,7 @@ def calculator(expr):
 			tokens[i] = multiplicationResult
 			tokens.pop(i+2)
 			tokens.pop(i+1)
-			
-		i += 1
+			i = -1
 
 	result = tokens[0]
 	i = 2
