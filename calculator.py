@@ -24,8 +24,8 @@ def printCalculator(expr):
 def calculator(expr):
 	# Remove spaces for regex convenience
 	expr = re.sub(r'\s', '', expr)
-	# Add implicit multiplication signs
-	#  e.g. 5(1+2) ----> 5*(1+2)
+
+	# Add mult signs e.g. 5(1+2) ----> 5*(1+2)
 	m = re.search('([0-9\)])(\()', expr)
 	while (m and m.group()):
 		match = m.group(0)[0] + m.group(0)[1]
@@ -57,7 +57,7 @@ def calculator(expr):
 			currVal = currVal + c
 	tokens.append(float(currVal))
 
-	# deal with (syntactically correct) operator at the beginning
+	# Deal with (syntactically correct) operator at the beginning
 	if (tokens[0] == '+'):
 		tokens.pop(0)
 	elif (tokens[0] == '-'):
@@ -75,7 +75,7 @@ def calculator(expr):
 				tokens.pop(i+1)
 		i += 1
 
-	# Evaluate multiplication, division, exponents:
+	# Evaluate multiplication, division, and exponents:
 	i = -1
 	while (i < len(tokens) - 2):
 		i += 1
@@ -95,6 +95,7 @@ def calculator(expr):
 			tokens.pop(i+1)
 			i = -1
 
+	# Calculates addition and subtraction:
 	result = tokens[0]
 	i = 2
 	while (i < len(tokens)):
@@ -107,13 +108,14 @@ def calculator(expr):
 
 	return result
 
-
+# Returns if 1 is input is an operator, 0 otherwise
 def isOperator(token):
 	if (token == '+' or token == '-'
 			or token == '*' or token == '/' or token == '^'):
 		return 1
 	return 0
 
+# Calculates "base" to the power of "exponent"
 def power(base, exponent):
 	if (exponent == 0):
 		return 1
